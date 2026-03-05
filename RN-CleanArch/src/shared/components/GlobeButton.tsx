@@ -1,4 +1,5 @@
-import { TouchableOpacity, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import React from 'react';
+import { TouchableOpacity, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 
 type CustomButtonProps = {
   child: React.ReactNode;
