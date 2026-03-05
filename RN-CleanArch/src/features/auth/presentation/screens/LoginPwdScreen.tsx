@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   View,
   Image,
@@ -30,7 +31,7 @@ export default function LoginPwdScreen() {
       <View style={styles.container}>
         <View style={styles.imageContainer}>
           <Image
-            source={require('../../../../assets/images/my_globe_home_header.jpg')}
+            source={require('../../../../../assets/images/my_globe_home_header.jpg')}
             style={styles.globeImage}
           />
           <View style={styles.paper}></View>
