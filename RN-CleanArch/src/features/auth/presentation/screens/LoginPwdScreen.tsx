@@ -9,7 +9,7 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
-import GlobeButton from '../../../../shared/components/GlobeButton';
+import GlobeButton from '../../../../shared/widgets/GlobeButton';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../app/store';

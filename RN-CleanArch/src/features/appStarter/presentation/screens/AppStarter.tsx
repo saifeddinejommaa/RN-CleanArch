@@ -1,10 +1,9 @@
-import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../../Navigation/AppNavigation';
-import LoopedVideo from '../../../../shared/components/LoopedVideo';
-import GlobeButton from '../../../../shared/components/GlobeButton';
+import GlobeButton from '../../../../shared/widgets/GlobeButton';
+import LoopedVideo from '../../../../shared/widgets/LoopedVideo';
 
 type AppStarterNavigationProp = NativeStackNavigationProp<
   RootStackParamList,

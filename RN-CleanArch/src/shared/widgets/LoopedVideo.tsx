@@ -1,6 +1,4 @@
 import { useVideoPlayer, VideoView } from 'expo-video';
-import React from 'react';
-import { StyleSheet } from 'react-native';
 
 export default function LoopedVideo() {
   const player = useVideoPlayer(
