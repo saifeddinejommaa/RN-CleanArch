@@ -10,7 +10,6 @@ export class AuthRepositoryImp implements IAuthRepository {
   }
 
   login(login: string, password: string): Promise<boolean> {
-    console.log('AuthRepositoryImp.login called');
     return Promise.resolve(true);
   }
 }

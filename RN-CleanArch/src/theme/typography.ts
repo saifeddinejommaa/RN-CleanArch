@@ -10,6 +10,8 @@ export const typography = StyleSheet.create({
   subTitle: {
     fontSize: 20,
     fontWeight: '600',
+    marginBottom: 10,
+    marginTop:10
   },
   body: {
     fontSize: 16,

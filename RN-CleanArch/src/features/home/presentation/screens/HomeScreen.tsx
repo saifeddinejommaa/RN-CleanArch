@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ScrollableHeaderScreen } from '../../../../shared/widgets/ScrollableHeaderScreen';
 import { CurrentMissionWidget } from '../widgets/CurrentMissionWidget';
+import UpComingMissionWidget from '../widgets/UpComingMissionWidget';
 
 export const HomeScreen = () => {
   const data = Array.from({ length: 30 });
@@ -9,7 +10,8 @@ export const HomeScreen = () => {
     <ScrollableHeaderScreen
       child={
         <View style={styles.container}>
-          <CurrentMissionWidget></CurrentMissionWidget>
+          <CurrentMissionWidget/>
+          <UpComingMissionWidget/>
         </View>
       }
     ></ScrollableHeaderScreen>
@@ -18,7 +20,6 @@ export const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     margin: 10,
   },
   onGoingMission: {

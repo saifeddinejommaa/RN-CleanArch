@@ -3,9 +3,12 @@ import { RequestState } from '../../../core/state/RequestState';
 import CurrentMission from '../domain/entities/CurrentMission';
 import { container } from '../../../core/di/container';
 import GetCurrentMissionUseCase from '../domain/useCases/GetCurrentMissionUseCase';
+import UpComingMission from '../domain/entities/UpComingMission';
+import GetUpComingMissionUseCase from '../domain/useCases/GetUpComingMissionUseCase';
 
 interface HomeState {
   currentMission: RequestState<CurrentMission>;
+  upComingMission:RequestState<UpComingMission[]>;
 }
 
 const initialState: HomeState = {
@@ -14,6 +17,11 @@ const initialState: HomeState = {
     status: 'initial',
     error: undefined,
   },
+  upComingMission : {
+    data: null,
+    status: 'initial',
+    error: undefined,
+  }
 };
 
 export const getCurrentMissionAction = createAsyncThunk(
@@ -26,8 +34,18 @@ export const getCurrentMissionAction = createAsyncThunk(
   },
 );
 
+export const getUpComingMissionAction = createAsyncThunk(
+  'home/upComingMission',
+  async () => {
+    const getUpComingMissionUseCase = container.resolve<GetUpComingMissionUseCase>(
+      'GetUpComingMissionUseCase',
+    );
+    return getUpComingMissionUseCase.execute();
+  },
+);
+
 const homeSlice = createSlice({
-  name: 'auth',
+  name: 'home',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -57,8 +75,35 @@ const homeSlice = createSlice({
           status: 'error',
           error: action.error.message || 'error',
         };
-      });
+      })
+      .addCase(getUpComingMissionAction.pending, (state) => {
+        state.upComingMission = { data: null, status: 'loading', error: undefined };
+      })
+      .addCase(getUpComingMissionAction.fulfilled, (state, action) => {
+        if(action.payload.success){
+        state.upComingMission = {
+          data: action.payload.data,
+          status: 'success',
+          error: undefined,
+        };
+      }
+      else {
+        state.upComingMission = {
+          data: null,
+          status: 'error',
+          error: action.payload.error || 'error',
+        };
+      }
+      })
+      .addCase(getUpComingMissionAction.rejected, (state, action) => {
+        state.upComingMission = {
+          data: null,
+          status: 'error',
+          error: action.error.message || 'error',
+        };
+      })
   },
+  
 });
 
 export default homeSlice.reducer;
