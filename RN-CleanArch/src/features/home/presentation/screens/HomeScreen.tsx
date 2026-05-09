@@ -17,12 +17,16 @@ export const HomeScreen = () => {
           <View style={styles.searchContainer}>
             <GlobeCard
               child={
-                <View style= {styles.cardContainer}>
-                  <Text style= {styles.searchTitle}>Trouver une mission qui vous convient</Text>
+                <View style={styles.cardContainer}>
+                  <Text style={styles.searchTitle}>
+                    Trouver une mission qui vous convient
+                  </Text>
                   <GlobeButton
                     onPress={() => {}}
-                    child={<Text style = {styles.searchButtonText}>Trouver une mission</Text>}
-                  ></GlobeButton>
+                    child={
+                      <Text style={styles.searchButtonText}>Trouver une mission</Text>
+                    }
+                  />
                 </View>
               }
             />
@@ -41,15 +45,15 @@ const styles = StyleSheet.create({
   searchContainer: {
     marginTop: 20,
   },
-  cardContainer : {
-    alignItems:'center'
+  cardContainer: {
+    alignItems: 'center',
   },
   searchTitle: {
     ...typography.LabelLarge,
-    marginBottom:10
+    marginBottom: 10,
   },
   searchButtonText: {
     ...typography.LabelLarge,
-    color:'#FFFFFF'
-  }
+    color: '#FFFFFF',
+  },
 });

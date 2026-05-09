@@ -10,8 +10,9 @@ class HomeRepository implements IHomeRepository {
   constructor(private http: IHttpService) {}
   async GetUpComingMission(): Promise<Result<UpComingMission[] | null>> {
     try {
-      var response: ApiResponse<UpComingMission[] | null> =
-        await this.http.get<UpComingMission[] | null>('/api/v3/me/home/incoming');
+      var response: ApiResponse<UpComingMission[] | null> = await this.http.get<
+        UpComingMission[] | null
+      >('/api/v3/me/home/incoming');
 
       if (response.status != 200) {
         return {
@@ -31,7 +32,7 @@ class HomeRepository implements IHomeRepository {
       };
     }
   }
-  
+
   async GetRurrentMission(): Promise<Result<CurrentMission | null>> {
     try {
       var response: ApiResponse<CurrentMission | null> =

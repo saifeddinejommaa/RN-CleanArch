@@ -27,8 +27,8 @@ const UpComingMissionWidget = () => {
 };
 
 function buildContent(upComingMission: RequestState<UpComingMission[]>): JSX.Element {
-  if(upComingMission.status ==='loading'){
-     return <ActivityIndicator/>
+  if (upComingMission.status === 'loading') {
+    return <ActivityIndicator />;
   }
 
   if (upComingMission.error != null) {
@@ -51,7 +51,7 @@ function buildContent(upComingMission: RequestState<UpComingMission[]>): JSX.Ele
             campainName={mission.campaignName}
             logo={mission.logo}
             occupationLabel={mission.occupationLabel}
-          ></MissionForHomeItemWidget>
+          />
         </View>
       ))}
     </View>

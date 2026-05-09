@@ -8,7 +8,7 @@ import GetUpComingMissionUseCase from '../domain/useCases/GetUpComingMissionUseC
 
 interface HomeState {
   currentMission: RequestState<CurrentMission>;
-  upComingMission:RequestState<UpComingMission[]>;
+  upComingMission: RequestState<UpComingMission[]>;
 }
 
 const initialState: HomeState = {
@@ -17,11 +17,11 @@ const initialState: HomeState = {
     status: 'initial',
     error: undefined,
   },
-  upComingMission : {
+  upComingMission: {
     data: null,
     status: 'initial',
     error: undefined,
-  }
+  },
 };
 
 export const getCurrentMissionAction = createAsyncThunk(
@@ -54,20 +54,19 @@ const homeSlice = createSlice({
         state.currentMission = { data: null, status: 'loading', error: undefined };
       })
       .addCase(getCurrentMissionAction.fulfilled, (state, action) => {
-        if(action.payload.success){
-        state.currentMission = {
-          data: action.payload.data,
-          status: 'success',
-          error: undefined,
-        };
-      }
-      else {
-        state.currentMission = {
-          data: null,
-          status: 'error',
-          error: action.payload.error || 'error',
-        };
-      }
+        if (action.payload.success) {
+          state.currentMission = {
+            data: action.payload.data,
+            status: 'success',
+            error: undefined,
+          };
+        } else {
+          state.currentMission = {
+            data: null,
+            status: 'error',
+            error: action.payload.error || 'error',
+          };
+        }
       })
       .addCase(getCurrentMissionAction.rejected, (state, action) => {
         state.currentMission = {
@@ -80,20 +79,19 @@ const homeSlice = createSlice({
         state.upComingMission = { data: null, status: 'loading', error: undefined };
       })
       .addCase(getUpComingMissionAction.fulfilled, (state, action) => {
-        if(action.payload.success){
-        state.upComingMission = {
-          data: action.payload.data,
-          status: 'success',
-          error: undefined,
-        };
-      }
-      else {
-        state.upComingMission = {
-          data: null,
-          status: 'error',
-          error: action.payload.error || 'error',
-        };
-      }
+        if (action.payload.success) {
+          state.upComingMission = {
+            data: action.payload.data,
+            status: 'success',
+            error: undefined,
+          };
+        } else {
+          state.upComingMission = {
+            data: null,
+            status: 'error',
+            error: action.payload.error || 'error',
+          };
+        }
       })
       .addCase(getUpComingMissionAction.rejected, (state, action) => {
         state.upComingMission = {
@@ -101,9 +99,8 @@ const homeSlice = createSlice({
           status: 'error',
           error: action.error.message || 'error',
         };
-      })
+      });
   },
-  
 });
 
 export default homeSlice.reducer;

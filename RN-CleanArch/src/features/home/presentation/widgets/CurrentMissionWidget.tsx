@@ -34,15 +34,11 @@ function buildContent(requestState: RequestState<CurrentMission>): JSX.Element {
   if (requestState.error != null) {
     return <Text>{requestState.error}</Text>;
   }
-  
+
   const currentMision = requestState.data;
   if (currentMision == null) {
     return (
-      <GlobeCard
-        child={
-          <EmptyDataWidget message="Aucune mission pour le moment"></EmptyDataWidget>
-        }
-      />
+      <GlobeCard child={<EmptyDataWidget message="Aucune mission pour le moment" />} />
     );
   }
 

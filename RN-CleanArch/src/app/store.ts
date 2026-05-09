@@ -5,7 +5,7 @@ import homeReducer from '../features/home/presentation/HomeSlice';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    home: homeReducer
+    home: homeReducer,
   },
 });
 

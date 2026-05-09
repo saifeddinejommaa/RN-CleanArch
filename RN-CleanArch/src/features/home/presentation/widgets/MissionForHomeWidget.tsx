@@ -14,14 +14,17 @@ export const MissionForHomeItemWidget = ({
   occupationLabel,
 }: Props) => {
   return (
-    <GlobeCard child = {
-    <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: logo }}></Image>
-      <View style = {styles.detailsContainer}>
-      <Text>{campainName}</Text>
-      <Text>{occupationLabel}</Text>
-      </View>
-    </View>} />
+    <GlobeCard
+      child={
+        <View style={styles.container}>
+          <Image style={styles.image} source={{ uri: logo }} />
+          <View style={styles.detailsContainer}>
+            <Text>{campainName}</Text>
+            <Text>{occupationLabel}</Text>
+          </View>
+        </View>
+      }
+    />
   );
 };
 
@@ -30,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
-  detailsContainer : {
+  detailsContainer: {
     marginLeft: 12,
     flexShrink: 1,
   },
