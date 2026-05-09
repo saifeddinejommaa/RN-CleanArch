@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { GlobeCard } from '../../../../shared/widgets/GlobeCard';
 
 type Props = {
   campainName: string;
@@ -13,13 +14,14 @@ export const MissionForHomeItemWidget = ({
   occupationLabel,
 }: Props) => {
   return (
+    <GlobeCard child = {
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: logo }}></Image>
       <View style = {styles.detailsContainer}>
       <Text>{campainName}</Text>
       <Text>{occupationLabel}</Text>
       </View>
-    </View>
+    </View>} />
   );
 };
 

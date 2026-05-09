@@ -22,14 +22,4 @@ const styles = StyleSheet.create({
   container: {
     margin: 10,
   },
-  onGoingMission: {
-    height: 300,
-  },
-  row: {
-    height: 40,
-    margin: 16,
-    backgroundColor: '#D3D3D3',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 });

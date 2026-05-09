@@ -9,7 +9,7 @@ export const GlobePrincipalScreen = ({ child, screenTitle }: PrincipalScreenPara
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={[typography.screenTitle, { color: 'white' }]}>{screenTitle}</Text>
+        <Text style={[typography.label2XLarge, { color: 'white' }]}>{screenTitle}</Text>
       </View>
       <View style={styles.childContainer}>{child}</View>
     </SafeAreaView>

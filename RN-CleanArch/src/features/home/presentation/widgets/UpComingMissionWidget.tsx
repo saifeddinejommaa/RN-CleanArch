@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../app/store';
 import { JSX, useEffect } from 'react';
@@ -8,23 +8,21 @@ import UpComingMission from '../../domain/entities/UpComingMission';
 import { GlobeCard } from '../../../../shared/widgets/GlobeCard';
 import { typography } from '../../../../theme/typography';
 import { MissionForHomeItemWidget } from './MissionForHomeWidget';
+import EmptyDataWidget from '../../../../shared/widgets/EmptyDataWidget';
 
 const UpComingMissionWidget = () => {
   const dispatch = useDispatch<any>();
   const homeState = useSelector((state: RootState) => state.home);
 
   useEffect(() => {
+    console.log('dispatch called');
     dispatch(getUpComingMissionAction());
   }, dispatch);
 
   return (
     <View>
-      <Text style={typography.subTitle}>Mission à venir</Text>
-      <GlobeCard
-        child={
-          <View>{buildContent(homeState.upComingMission)}</View>
-        }
-      />
+      <Text style={typography.label2XLarge}>Mission à venir</Text>
+      <View>{buildContent(homeState.upComingMission)}</View>
     </View>
   );
 };
@@ -36,24 +34,32 @@ function buildContent(upComingMission: RequestState<UpComingMission[]>): JSX.Ele
 
   const missions: UpComingMission[] | null = upComingMission.data;
   if (missions === null) {
-    return (
-      <View>
-        <Text>No missions à venir</Text>
-      </View>
-    );
+    return <EmptyDataWidget message="No missions à venir"></EmptyDataWidget>;
   }
 
   return (
     <View>
       {missions.map((mission) => (
-        <MissionForHomeItemWidget
-          campainName={mission.campaignName}
-          logo={mission.logo}
-          occupationLabel={mission.occupationLabel}
-        ></MissionForHomeItemWidget>
+        <View>
+          <Text style={styles.dateText}>
+            {new Date(mission.firstMissionDay).toLocaleDateString('fr-FR')}
+          </Text>
+          <MissionForHomeItemWidget
+            campainName={mission.campaignName}
+            logo={mission.logo}
+            occupationLabel={mission.occupationLabel}
+          ></MissionForHomeItemWidget>
+        </View>
       ))}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  dateText: {
+    ...typography.LabelXLarge,
+    marginBottom: 10,
+  },
+});
 
 export default UpComingMissionWidget;
