@@ -3,15 +3,30 @@ import { View, Text, StyleSheet } from 'react-native';
 import { ScrollableHeaderScreen } from '../../../../shared/widgets/ScrollableHeaderScreen';
 import { CurrentMissionWidget } from '../widgets/CurrentMissionWidget';
 import UpComingMissionWidget from '../widgets/UpComingMissionWidget';
+import { GlobeCard } from '../../../../shared/widgets/GlobeCard';
+import GlobeButton from '../../../../shared/widgets/GlobeButton';
+import { typography } from '../../../../theme/typography';
 
 export const HomeScreen = () => {
-  const data = Array.from({ length: 30 });
   return (
     <ScrollableHeaderScreen
       child={
         <View style={styles.container}>
-          <CurrentMissionWidget/>
-          <UpComingMissionWidget/>
+          <CurrentMissionWidget />
+          <UpComingMissionWidget />
+          <View style={styles.searchContainer}>
+            <GlobeCard
+              child={
+                <View style= {styles.cardContainer}>
+                  <Text style= {styles.searchTitle}>Trouver une mission qui vous convient</Text>
+                  <GlobeButton
+                    onPress={() => {}}
+                    child={<Text style = {styles.searchButtonText}>Trouver une mission</Text>}
+                  ></GlobeButton>
+                </View>
+              }
+            />
+          </View>
         </View>
       }
     ></ScrollableHeaderScreen>
@@ -20,6 +35,21 @@ export const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     margin: 10,
   },
+  searchContainer: {
+    marginTop: 20,
+  },
+  cardContainer : {
+    alignItems:'center'
+  },
+  searchTitle: {
+    ...typography.LabelLarge,
+    marginBottom:10
+  },
+  searchButtonText: {
+    ...typography.LabelLarge,
+    color:'#FFFFFF'
+  }
 });

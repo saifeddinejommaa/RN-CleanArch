@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../app/store';
 import { JSX, useEffect } from 'react';
@@ -15,7 +15,6 @@ const UpComingMissionWidget = () => {
   const homeState = useSelector((state: RootState) => state.home);
 
   useEffect(() => {
-    console.log('dispatch called');
     dispatch(getUpComingMissionAction());
   }, dispatch);
 
@@ -28,6 +27,10 @@ const UpComingMissionWidget = () => {
 };
 
 function buildContent(upComingMission: RequestState<UpComingMission[]>): JSX.Element {
+  if(upComingMission.status ==='loading'){
+     return <ActivityIndicator/>
+  }
+
   if (upComingMission.error != null) {
     return <Text>{upComingMission.error}</Text>;
   }

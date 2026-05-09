@@ -1,5 +1,5 @@
 import { JSX, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { typography } from '../../../../theme/typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../app/store';
@@ -8,6 +8,7 @@ import { MissionForHomeItemWidget } from './MissionForHomeWidget';
 import { getCurrentMissionAction } from '../HomeSlice';
 import CurrentMission from '../../domain/entities/CurrentMission';
 import EmptyDataWidget from '../../../../shared/widgets/EmptyDataWidget';
+import { RequestState } from '../../../../core/state/RequestState';
 
 export const CurrentMissionWidget = () => {
   const dispatch = useDispatch<any>();
@@ -20,15 +21,22 @@ export const CurrentMissionWidget = () => {
     <View>
       <Text style={typography.label2XLarge}>Mission en Cours</Text>
 
-      <View style={styles.currentMission}>
-        {buildContent(homeState.currentMission.data)}
-      </View>
+      <View style={styles.currentMission}>{buildContent(homeState.currentMission)}</View>
     </View>
   );
 };
 
-function buildContent(currentMission: CurrentMission | null): JSX.Element {
-  if (currentMission == null) {
+function buildContent(requestState: RequestState<CurrentMission>): JSX.Element {
+  if (requestState.status === 'loading') {
+    return <ActivityIndicator />;
+  }
+
+  if (requestState.error != null) {
+    return <Text>{requestState.error}</Text>;
+  }
+  
+  const currentMision = requestState.data;
+  if (currentMision == null) {
     return (
       <GlobeCard
         child={
@@ -40,9 +48,9 @@ function buildContent(currentMission: CurrentMission | null): JSX.Element {
 
   return (
     <MissionForHomeItemWidget
-      campainName={currentMission.campaignName}
-      logo={currentMission.logo}
-      occupationLabel={currentMission.brandName}
+      campainName={currentMision.campaignName}
+      logo={currentMision.logo}
+      occupationLabel={currentMision.brandName}
     />
   );
 }
@@ -50,8 +58,8 @@ function buildContent(currentMission: CurrentMission | null): JSX.Element {
 const styles = StyleSheet.create({
   currentMission: {
     flex: 1,
-    marginTop:10,
-    marginBottom:10
+    marginTop: 10,
+    marginBottom: 10,
   },
 
   noMissionContent: {
