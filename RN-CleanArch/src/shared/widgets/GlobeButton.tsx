@@ -3,7 +3,7 @@ import { TouchableOpacity, StyleSheet, StyleProp, ViewStyle } from 'react-native
 
 type CustomButtonProps = {
   child: React.ReactNode;
-  onPress: () => void; // style optionnel du texte
+  onPress: () => void;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 };

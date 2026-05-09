@@ -11,9 +11,11 @@ export const GlobeCard = ({ child, style }: CardProps) => {
 
 const styles = StyleSheet.create({
   card: {
+    width: '100%',
+    flex: 1,
     backgroundColor: 'white',
     borderRadius: 12,
-    padding: 20,
+    padding: 10,
 
     shadowColor: '#000',
     shadowOffset: {

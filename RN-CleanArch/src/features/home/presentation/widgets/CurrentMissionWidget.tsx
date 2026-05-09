@@ -1,5 +1,5 @@
 import { JSX, useEffect } from 'react';
-import { View, Text,StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { typography } from '../../../../theme/typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../app/store';
@@ -7,6 +7,8 @@ import { GlobeCard } from '../../../../shared/widgets/GlobeCard';
 import { MissionForHomeItemWidget } from './MissionForHomeWidget';
 import { getCurrentMissionAction } from '../HomeSlice';
 import CurrentMission from '../../domain/entities/CurrentMission';
+import EmptyDataWidget from '../../../../shared/widgets/EmptyDataWidget';
+import { RequestState } from '../../../../core/state/RequestState';
 
 export const CurrentMissionWidget = () => {
   const dispatch = useDispatch<any>();
@@ -16,36 +18,51 @@ export const CurrentMissionWidget = () => {
   }, [dispatch]);
 
   return (
-    <GlobeCard
-      child={
-        <View style={styles.currentMission}>
-          <Text style={typography.subTitle}>Mission en Cours</Text>
-          {buildContent(homeState.currentMission.data)}
-        </View>
-      }
-    ></GlobeCard>
+    <View>
+      <Text style={typography.label2XLarge}>Mission en Cours</Text>
+
+      <View style={styles.currentMission}>{buildContent(homeState.currentMission)}</View>
+    </View>
   );
 };
 
-function buildContent(currentMission: CurrentMission | null): JSX.Element {
-  if (currentMission == null) {
-    return <View style ={styles.noMissionContent}>
-      <Text>Aucune mission pour le moment</Text>
-    </View>;
+function buildContent(requestState: RequestState<CurrentMission>): JSX.Element {
+  if (requestState.status === 'loading') {
+    return <ActivityIndicator />;
   }
 
-  return <MissionForHomeItemWidget mission={currentMission} />;
+  if (requestState.error != null) {
+    return <Text>{requestState.error}</Text>;
+  }
+
+  const currentMision = requestState.data;
+  if (currentMision == null) {
+    return (
+      <GlobeCard child={<EmptyDataWidget message="Aucune mission pour le moment" />} />
+    );
+  }
+
+  return (
+    <MissionForHomeItemWidget
+      campainName={currentMision.campaignName}
+      logo={currentMision.logo}
+      occupationLabel={currentMision.brandName}
+    />
+  );
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   currentMission: {
     flex: 1,
-    height: 100,
+    marginTop: 10,
+    marginBottom: 10,
   },
 
   noMissionContent: {
-    flex:1,
+    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',   
-  }
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
 });
