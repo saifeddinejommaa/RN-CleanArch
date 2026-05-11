@@ -1,7 +1,23 @@
 import ApiResponse from './ApiResponse';
 
+export type HttpConfig = {
+  params?: Record<string, any>;
+  headers?: Record<string, string>;
+};
+
 export interface IHttpService {
-  get<T>(url: string, config?: any): Promise<ApiResponse<T>>;
-  post<T>(url: string, data?: any, config?: any): Promise<ApiResponse<T>>;
-  put<T>(url: string, data?: any, config?: any): Promise<ApiResponse<T>>;
+  get<T>(
+    url: string,
+    config?: HttpConfig,
+  ): Promise<ApiResponse<T>>;
+  post<T>(
+    url: string,
+    data?: any,
+    config?: HttpConfig,
+  ): Promise<ApiResponse<T>>;
+  put<T>(
+    url: string,
+    data?: any,
+    config?: HttpConfig,
+  ): Promise<ApiResponse<T>>;
 }

@@ -12,6 +12,7 @@ import { HomeScreen } from '../features/home/presentation/screens/HomeScreen';
 import { ProfileScreen } from '../features/profile/presentation/ProfileScreen';
 import { BottomBarIcon } from './BottomBarIcon';
 import { Ionicons } from '@expo/vector-icons';
+import SearchScreen from '../features/search/presentation/SearchScreen';
 
 export type RootStackParamList = {
   AppStarter: undefined;
@@ -45,6 +46,8 @@ const MainStack = () => {
               iconName = 'home-outline';
             } else if (route.name === 'Profile') {
               iconName = 'person-outline';
+            } else if(route.name === 'Search'){
+              iconName = 'search-outline';
             } else {
               iconName = 'bug-outline';
             }
@@ -56,6 +59,7 @@ const MainStack = () => {
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name = "Search" component={SearchScreen}/>
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     );

@@ -1,48 +1,54 @@
-import { IHttpService } from './IHttpService';
+import axios, { AxiosInstance } from 'axios';
+import { HttpConfig, IHttpService } from './IHttpService';
 
 export class HttpService implements IHttpService {
-  constructor(
-    private baseUrl: string,
-    private token: string,
-  ) {}
+  private client: AxiosInstance;
+  private token: string;
 
-  private async request<T>(url: string, options: RequestInit): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${url}`, {
+  constructor(baseUrl: string, token: string) {
+    this.token = token;
+    this.client = axios.create({
+      baseURL: baseUrl,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.token}`,
-        ...(options.headers || {}),
       },
-      ...options,
     });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
-
-    return response.json();
+    this.setupInterceptors();
   }
 
-  get<T>(url: string, config?: any): Promise<T> {
-    return this.request<T>(url, {
-      method: 'GET',
-      ...config,
+  private setupInterceptors() {
+    this.client.interceptors.request.use((config) => {
+      config.headers.Authorization = `Bearer ${this.token}`;
+      return config;
     });
   }
 
-  post<T>(url: string, data?: any, config?: any): Promise<T> {
-    return this.request<T>(url, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      ...config,
-    });
+  async get<T>(url: string, config?: HttpConfig): Promise<T> {
+    return this.client
+      .get<T>(url, {
+        params: config?.params,
+        headers: {
+          ...config?.headers,
+        },
+      })
+      .then((res) => res.data);
   }
 
-  put<T>(url: string, data?: any, config?: any): Promise<T> {
-    return this.request<T>(url, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-      ...config,
-    });
+  async post<T>(url: string, data?: any, config?: HttpConfig): Promise<T> {
+    return this.client
+      .post<T>(url, data, {
+        params: config?.params,
+        headers: config?.headers,
+      })
+      .then((res) => res.data);
+  }
+
+  async put<T>(url: string, data?: any, config?: HttpConfig): Promise<T> {
+    return this.client
+      .put<T>(url, data, {
+        params: config?.params,
+        headers: config?.headers,
+      })
+      .then((res) => res.data);
   }
 }
