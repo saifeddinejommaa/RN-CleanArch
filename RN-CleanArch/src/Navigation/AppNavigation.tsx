@@ -9,65 +9,92 @@ import { RootState } from '../app/store';
 import { checkAuth } from '../features/auth/presentation/AuthSlice';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeScreen } from '../features/home/presentation/screens/HomeScreen';
-import { ProfileScreen } from '../features/profile/presentation/ProfileScreen';
+import { ProfileScreen } from '../features/profile/presentation/screens/ProfileScreen';
 import { BottomBarIcon } from './BottomBarIcon';
 import { Ionicons } from '@expo/vector-icons';
 import SearchScreen from '../features/search/presentation/SearchScreen';
+import PersonalInfoScreen from '../features/profile/presentation/screens/PersonalInfoScreen';
 
 export type RootStackParamList = {
-  AppStarter: undefined;
-  SplashScreen: undefined;
-  LoginPwdScreen: undefined;
+  AuthStack: undefined;
   MainStack: undefined;
 };
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+export type AuthStackParamList = {
+  AppStarter: undefined;
+  LoginPwd: undefined;
+};
+
+export type MainStackParamList = {
+  Home: undefined;
+  Search: undefined;
+  ProfileStack: undefined;
+};
+
+export type ProfileStackParamList = {
+  ProfileScreen: undefined;
+  PersonalInfo: undefined;
+}
+
+const RootStack = createNativeStackNavigator<RootStackParamList>();
+const MainStackNavigator = createNativeStackNavigator<MainStackParamList>();
+const AuthStackNavigator = createNativeStackNavigator<AuthStackParamList>();
+const ProfileStackNavigator = createNativeStackNavigator<ProfileStackParamList>();
 
 const AuthStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} id="auth-stack">
-      <Stack.Screen name="AppStarter" component={AppStarter} />
-      <Stack.Screen name="LoginPwdScreen" component={LoginPwdScreen} />
-    </Stack.Navigator>
+    <AuthStackNavigator.Navigator screenOptions={{ headerShown: false }}>
+      <AuthStackNavigator.Screen name="AppStarter" component={AppStarter} />
+      <AuthStackNavigator.Screen name="LoginPwd" component={LoginPwdScreen} />
+    </AuthStackNavigator.Navigator>
   );
 };
 
-const MainStack = () => {
-  const Tab = createBottomTabNavigator();
-
-  function MyTabs() {
-    return (
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          headerShown: false,
-          tabBarIcon: ({ focused }) => {
-            let iconName: keyof typeof Ionicons.glyphMap;
-            if (route.name === 'Home') {
-              iconName = 'home-outline';
-            } else if (route.name === 'Profile') {
-              iconName = 'person-outline';
-            } else if(route.name === 'Search'){
-              iconName = 'search-outline';
-            } else {
-              iconName = 'bug-outline';
-            }
-
-            return <BottomBarIcon focused={focused} name={iconName} />;
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-        })}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name = "Search" component={SearchScreen}/>
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-      </Tab.Navigator>
-    );
-  }
+export const ProfileStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} id="main-stack">
-      <Stack.Screen name="MainStack" component={MyTabs} />
-    </Stack.Navigator>
+    <ProfileStackNavigator.Navigator screenOptions={{ headerShown: false }}>
+      <ProfileStackNavigator.Screen name="ProfileScreen" component={ProfileScreen} />
+      <ProfileStackNavigator.Screen name="PersonalInfo" component={PersonalInfoScreen} />
+    </ProfileStackNavigator.Navigator>
+  );
+};
+
+function MainTabs() {
+  const Tab = createBottomTabNavigator();
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ focused }) => {
+          let iconName: keyof typeof Ionicons.glyphMap;
+          if (route.name === 'Home') {
+            iconName = 'home-outline';
+          } else if (route.name === 'Profile') {
+            iconName = 'person-outline';
+          } else if (route.name === 'Search') {
+            iconName = 'search-outline';
+          } else {
+            iconName = 'bug-outline';
+          }
+
+          return <BottomBarIcon focused={focused} name={iconName} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Profile" component={ProfileStack} />
+    </Tab.Navigator>
+  );
+}
+
+const MainStack = () => {
+  return (
+    <MainStackNavigator.Navigator screenOptions={{ headerShown: false }} id="main-stack">
+      <MainStackNavigator.Screen name="Home" component={MainTabs} />
+    </MainStackNavigator.Navigator>
   );
 };
 
@@ -78,13 +105,30 @@ const RootNavigator = () => {
     dispatch(checkAuth());
   }, []);
 
-  const { isLoggedIn, isLoading } = useSelector((state: RootState) => state.auth);
+  const { isLoggedIn, isLoading } =
+    useSelector((state: RootState) => state.auth);
 
   if (isLoading) {
     return <SplashScreen />;
   }
 
-  return isLoggedIn ? <MainStack /> : <AuthStack />;
+  return (
+    <RootStack.Navigator
+      screenOptions={{ headerShown: false }}
+    >
+      {isLoggedIn ? (
+        <RootStack.Screen
+          name="MainStack"
+          component={MainTabs}
+        />
+      ) : (
+        <RootStack.Screen
+          name="AuthStack"
+          component={AuthStack}
+        />
+      )}
+    </RootStack.Navigator>
+  );
 };
 
 export default function AppNavigation() {

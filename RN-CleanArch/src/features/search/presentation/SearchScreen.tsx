@@ -4,7 +4,6 @@ import { GlobePrincipalScreen } from '../../../shared/widgets/GlobePrincipalScre
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../app/store';
 import { getAllMissions } from './SearchSlice';
-import { Result } from '../../../core/common/Result';
 import Mission from '../domain/entities/Mission';
 import { RequestState } from '../../../core/state/RequestState';
 

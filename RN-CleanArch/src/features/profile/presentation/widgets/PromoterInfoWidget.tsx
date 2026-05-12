@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { GlobeCard } from '../../../shared/widgets/GlobeCard';
-import { typography } from '../../../theme/typography';
+import { GlobeCard } from '../../../../shared/widgets/GlobeCard';
+import { typography } from '../../../../theme/typography';
 
 export const PromoterInfoWIdget = () => {
   return (
     <GlobeCard
-      style={styles.card}
       child={
         <View style={styles.container}>
           <View style={styles.profilePhoto}></View>
@@ -18,15 +17,8 @@ export const PromoterInfoWIdget = () => {
 };
 
 const styles = StyleSheet.create({
-  card: {
-    width: '100%',
-  },
   container: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignContent: 'flex-start',
-    backgroundColor: 'white',
-    width: '100%',
   },
   profilePhoto: {
     height: 50,
