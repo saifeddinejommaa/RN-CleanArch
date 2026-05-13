@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Touchable, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, Touchable, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { container } from '../../../../core/di/container';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -9,7 +9,7 @@ type NavigationItemProps = {
 };
 const ProfileNavigationItem = (props: NavigationItemProps) => {
   return (
-    <TouchableHighlight onPress={props.onPress}>
+    <TouchableOpacity onPress={props.onPress}>
     <View style={styles.container}>
       <Ionicons name={props.iconName} size={24} color="black" />
       <Text style={styles.itemText}>{props.text}</Text>
@@ -19,7 +19,7 @@ const ProfileNavigationItem = (props: NavigationItemProps) => {
         color="black"
         style={{ marginLeft: 'auto' }}/>
     </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 

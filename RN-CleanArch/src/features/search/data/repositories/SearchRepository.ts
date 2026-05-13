@@ -1,6 +1,6 @@
 import { Result } from '../../../../core/common/Result';
-import ApiResponse from '../../../../core/httpServices/ApiResponse';
-import { IHttpService } from '../../../../core/httpServices/IHttpService';
+import ApiResponse from '../../../../core/services/httpServices/ApiResponse';
+import { IHttpService } from '../../../../core/services/httpServices/IHttpService';
 import Mission from '../../domain/entities/Mission';
 import SearchParams from '../../domain/params/SearchParams';
 import ISearchRepository from '../../domain/repositories/searchRepository';
@@ -25,7 +25,7 @@ class SearchRepository implements ISearchRepository {
 
     const missionsListResponse: MissionsListResponse | null = response.data;
     const missionsResonseResult = missionsListResponse?.result;
-    
+
     return {
       success: true,
       data: Array.isArray(missionsResonseResult)

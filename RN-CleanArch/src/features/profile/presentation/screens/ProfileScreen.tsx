@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import { GlobePrincipalScreen } from '../../../../shared/widgets/GlobePrincipalScreen';
 import { GlobeCard } from '../../../../shared/widgets/GlobeCard';
 import { PromoterInfoWIdget } from '../widgets/PromoterInfoWidget';
-import { container } from '../../../../core/di/container';
 import ProfileNavigationItem from '../widgets/ProfileNavigationItem';
 import Separator from '../../../../shared/widgets/Separator';
 import { useNavigation } from '@react-navigation/native';
