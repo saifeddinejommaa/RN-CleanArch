@@ -12,7 +12,7 @@ import { HomeScreen } from '../features/home/presentation/screens/HomeScreen';
 import { ProfileScreen } from '../features/profile/presentation/screens/ProfileScreen';
 import { BottomBarIcon } from './BottomBarIcon';
 import { Ionicons } from '@expo/vector-icons';
-import SearchScreen from '../features/search/presentation/SearchScreen';
+import SearchScreen from '../features/search/presentation/screens/SearchScreen';
 import PersonalInfoScreen from '../features/profile/presentation/screens/PersonalInfoScreen';
 
 export type RootStackParamList = {
@@ -34,7 +34,7 @@ export type MainStackParamList = {
 export type ProfileStackParamList = {
   ProfileScreen: undefined;
   PersonalInfo: undefined;
-}
+};
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const MainStackNavigator = createNativeStackNavigator<MainStackParamList>();
@@ -105,27 +105,18 @@ const RootNavigator = () => {
     dispatch(checkAuth());
   }, []);
 
-  const { isLoggedIn, isLoading } =
-    useSelector((state: RootState) => state.auth);
+  const { isLoggedIn, isLoading } = useSelector((state: RootState) => state.auth);
 
   if (isLoading) {
     return <SplashScreen />;
   }
 
   return (
-    <RootStack.Navigator
-      screenOptions={{ headerShown: false }}
-    >
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
       {isLoggedIn ? (
-        <RootStack.Screen
-          name="MainStack"
-          component={MainTabs}
-        />
+        <RootStack.Screen name="MainStack" component={MainTabs} />
       ) : (
-        <RootStack.Screen
-          name="AuthStack"
-          component={AuthStack}
-        />
+        <RootStack.Screen name="AuthStack" component={AuthStack} />
       )}
     </RootStack.Navigator>
   );

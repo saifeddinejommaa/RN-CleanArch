@@ -3,7 +3,7 @@ import MissionAddress from './MissionAddress';
 type Mission = {
   id: number;
   campaignOccupationId: number;
-  logo: string | null;
+  logo: string;
   backgroundColor: string;
   missionTitle: string;
   campaignName: string;

@@ -20,13 +20,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#f0f0f0',
   },
-
   backIcon: {
     position: 'absolute',
     left: 10,
     zIndex: 1,
   },
-
   text: {
     textAlign: 'center',
     fontSize: 18,

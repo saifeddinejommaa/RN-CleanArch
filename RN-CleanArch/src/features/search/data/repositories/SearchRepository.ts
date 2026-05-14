@@ -5,6 +5,7 @@ import Mission from '../../domain/entities/Mission';
 import SearchParams from '../../domain/params/SearchParams';
 import ISearchRepository from '../../domain/repositories/searchRepository';
 import { mapMissionResponseToEntity } from '../mappers/MissionMapper';
+import MissionResponse from '../responses/MissionResponse';
 import MissionsListResponse from '../responses/MissionsListRespons';
 
 class SearchRepository implements ISearchRepository {
@@ -24,13 +25,20 @@ class SearchRepository implements ISearchRepository {
     }
 
     const missionsListResponse: MissionsListResponse | null = response.data;
-    const missionsResonseResult = missionsListResponse?.result;
+
+    console.log(
+      'SearchRepository - missionsListResponse - response:',
+      missionsListResponse,
+    );
+
+    const missionsResonseResult = missionsListResponse?.results;
 
     return {
       success: true,
-      data: Array.isArray(missionsResonseResult)
-        ? missionsResonseResult.map(mapMissionResponseToEntity)
-        : null,
+      data:
+        missionsResonseResult !== undefined && missionsResonseResult !== null
+          ? missionsResonseResult.map(mapMissionResponseToEntity)
+          : null,
     };
   }
 }

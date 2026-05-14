@@ -1,10 +1,12 @@
 import { StyleSheet, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { typography } from '../../theme/typography';
+
 type PrincipalScreenParams = {
   child: React.ReactNode;
   screenTitle: String;
 };
+
 export const GlobePrincipalScreen = ({ child, screenTitle }: PrincipalScreenParams) => {
   return (
     <SafeAreaView style={styles.container}>

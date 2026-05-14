@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet, Touchable, TouchableHighlight, TouchableOpacity } from 'react-native';
-import { container } from '../../../../core/di/container';
 import { Ionicons } from '@expo/vector-icons';
 
 type NavigationItemProps = {
