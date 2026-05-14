@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../app/store';
 import { login } from '../AuthSlice';
 import Toast from 'react-native-toast-message';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoginPwdScreen() {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,7 +24,7 @@ export default function LoginPwdScreen() {
   const [password, setPassword] = useState<string>('');
 
   useEffect(() => {
-    if(authState.error) {
+    if (authState.error) {
       Toast.show({
         type: 'error',
         text1: 'Authentication Error',
@@ -32,35 +33,41 @@ export default function LoginPwdScreen() {
   }, [authState.error]);
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={require('../../../../../assets/images/my_globe_home_header.jpg')}
-            style={styles.globeImage}
-          />
-          <View style={styles.paper}></View>
+    <SafeAreaView>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={require('../../../../../assets/images/my_globe_home_header.jpg')}
+              style={styles.globeImage}
+            />
+            <View style={styles.paper}></View>
+          </View>
+          <View style={styles.editorsContainer}>
+            <Text>Login:</Text>
+            <TextInput style={styles.input} value={email} onChangeText={setEmail} />
+            <Text>Password:</Text>
+            <TextInput style={styles.input} value={password} onChangeText={setPassword} />
+            <GlobeButton
+              style={styles.authButton}
+              child={
+                authState.isLoading ? (
+                  <ActivityIndicator size="large" />
+                ) : (
+                  <Text>S'authentifier</Text>
+                )
+              }
+              onPress={function (): void {
+                dispatch(login({ email, password }));
+              }}
+            ></GlobeButton>
+          </View>
         </View>
-        <View style={styles.editorsContainer}>
-          <Text>Login:</Text>
-          <TextInput style={styles.input} value={email} onChangeText={setEmail} />
-          <Text>Password:</Text>
-          <TextInput style={styles.input} value={password} onChangeText={setPassword} />
-          <GlobeButton
-            style={styles.authButton}
-            child={
-              authState.isLoading ? <ActivityIndicator size="large" /> : <Text>S'authentifier</Text>
-            }
-            onPress={function (): void {
-              dispatch(login({ email, password }));
-            }}
-          ></GlobeButton>
-        </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

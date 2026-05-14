@@ -17,42 +17,45 @@ export const ProfileScreen = () => {
   const navigation = useNavigation<ProfileStarterNavigationProp>();
 
   return (
-    <GlobePrincipalScreen
-      screenTitle="Profile"
-      child={
-        <View style={styles.container}>
-          <PromoterInfoWIdget></PromoterInfoWIdget>
-          <GlobeCard
-            style={styles.body}
-            child={
-              <View>
-                <ProfileNavigationItem
-                  text="Informations personnelles"
-                  iconName="information-circle-outline"
-                  onPress={() => navigation.navigate('PersonalInfo')}
-                />
-                <Separator />
-                <ProfileNavigationItem text="Mes documenrs" iconName="document-outline" />
-                <Separator />
-                <ProfileNavigationItem
-                  text="Sécurité et confidentialité"
-                  iconName="server"
-                  onPress={() => navigation.navigate('PersonalInfo')}
-                />
-                <Separator />
-                <ProfileNavigationItem
-                  text="Contacter Globe"
-                  iconName="phone-portrait-outline"
-                />
-                <Separator />
-                <ProfileNavigationItem text="Déconnection" iconName="log-out-outline" />
-                <Separator />
-              </View>
-            }
-          />
-        </View>
-      }
-    ></GlobePrincipalScreen>
+      <GlobePrincipalScreen
+        screenTitle="Profile"
+        child={
+          <View style={styles.container}>
+            <PromoterInfoWIdget></PromoterInfoWIdget>
+            <GlobeCard
+              style={styles.body}
+              child={
+                <View>
+                  <ProfileNavigationItem
+                    text="Informations personnelles"
+                    iconName="information-circle-outline"
+                    onPress={() => navigation.navigate('PersonalInfo')}
+                  />
+                  <Separator />
+                  <ProfileNavigationItem
+                    text="Mes documenrs"
+                    iconName="document-outline"
+                  />
+                  <Separator />
+                  <ProfileNavigationItem
+                    text="Sécurité et confidentialité"
+                    iconName="server"
+                    onPress={() => navigation.navigate('PersonalInfo')}
+                  />
+                  <Separator />
+                  <ProfileNavigationItem
+                    text="Contacter Globe"
+                    iconName="phone-portrait-outline"
+                  />
+                  <Separator />
+                  <ProfileNavigationItem text="Déconnection" iconName="log-out-outline" />
+                  <Separator />
+                </View>
+              }
+            />
+          </View>
+        }
+      ></GlobePrincipalScreen>
   );
 };
 

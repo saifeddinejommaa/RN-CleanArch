@@ -14,6 +14,9 @@ import { BottomBarIcon } from './BottomBarIcon';
 import { Ionicons } from '@expo/vector-icons';
 import SearchScreen from '../features/search/presentation/screens/SearchScreen';
 import PersonalInfoScreen from '../features/profile/presentation/screens/PersonalInfoScreen';
+import IdentityScreen from '../features/profile/presentation/screens/IdentityScreen';
+import SizesReferenceScreen from '../features/profile/presentation/screens/SizesReferenceScreen';
+import EmailScreen from '../features/profile/presentation/screens/EmailScreen';
 
 export type RootStackParamList = {
   AuthStack: undefined;
@@ -34,6 +37,9 @@ export type MainStackParamList = {
 export type ProfileStackParamList = {
   ProfileScreen: undefined;
   PersonalInfo: undefined;
+  Identity : undefined;
+  SizesReference : undefined;
+  Email : undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -55,6 +61,9 @@ export const ProfileStack = () => {
     <ProfileStackNavigator.Navigator screenOptions={{ headerShown: false }}>
       <ProfileStackNavigator.Screen name="ProfileScreen" component={ProfileScreen} />
       <ProfileStackNavigator.Screen name="PersonalInfo" component={PersonalInfoScreen} />
+      <ProfileStackNavigator.Screen name="Identity" component={IdentityScreen} />
+      <ProfileStackNavigator.Screen name="SizesReference" component={SizesReferenceScreen} />
+      <ProfileStackNavigator.Screen name="Email" component={EmailScreen} />
     </ProfileStackNavigator.Navigator>
   );
 };

@@ -16,10 +16,10 @@ const SearchScreen = () => {
   }, []);
 
   return (
-    <GlobePrincipalScreen
-      screenTitle="Recherche"
-      child={<View style={styles.container}>{renderView(searchState.missions)}</View>}
-    />
+      <GlobePrincipalScreen
+        screenTitle="Recherche"
+        child={<View style={styles.container}>{renderView(searchState.missions)}</View>}
+      />
   );
 };
 
@@ -45,7 +45,7 @@ function renderView(result: RequestState<Mission[] | null>) {
           logo={item.logo}
           missionSubTitle={item.occupationName}
           missionTitle={item.campaignName}
-          price= {item.price}
+          price={item.price}
         />
       )}
       keyExtractor={(item) => item.id.toString()}
