@@ -45,6 +45,12 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
+        if (!action.payload) {
+          state.isLoading = false;
+          state.isLoggedIn = false;
+          state.error = 'Invalid credentials';
+          return;
+        }
         state.isLoading = false;
         state.isLoggedIn = action.payload;
         state.error = null;
@@ -65,7 +71,7 @@ const authSlice = createSlice({
       .addCase(checkAuth.rejected, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = false;
-        state.error = action.error.message || 'Login failed';
+        state.error = action.error.message || 'Failed to check authentication';
       })
       .addCase(logout.pending, (state) => {
         state.isLoading = true;

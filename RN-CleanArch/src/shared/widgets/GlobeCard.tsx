@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 
 type CardProps = {
   child: React.ReactNode;
   style?: StyleProp<ViewStyle>;
 };
+
 export const GlobeCard = ({ child, style }: CardProps) => {
   return <View style={[style, styles.card]}>{child}</View>;
 };
@@ -12,7 +13,6 @@ export const GlobeCard = ({ child, style }: CardProps) => {
 const styles = StyleSheet.create({
   card: {
     width: '100%',
-    flex: 1,
     backgroundColor: 'white',
     borderRadius: 12,
     padding: 10,
@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 6,
-
     elevation: 5,
   },
 });

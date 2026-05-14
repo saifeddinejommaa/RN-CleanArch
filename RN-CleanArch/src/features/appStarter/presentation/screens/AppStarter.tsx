@@ -1,12 +1,12 @@
 import { Text, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../../Navigation/AppNavigation';
 import GlobeButton from '../../../../shared/widgets/GlobeButton';
 import LoopedVideo from '../../../../shared/widgets/LoopedVideo';
+import { AuthStackParamList } from '../../../../Navigation/AppNavigation';
 
 type AppStarterNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
+  AuthStackParamList,
   'AppStarter'
 >;
 export default function AppStarter() {
@@ -22,7 +22,7 @@ export default function AppStarter() {
         }}
       >
         <GlobeButton
-          onPress={() => navigation.navigate('LoginPwdScreen')}
+          onPress={() => navigation.navigate('LoginPwd')}
           child={<Text>S'authentifier</Text>}
         />
       </View>

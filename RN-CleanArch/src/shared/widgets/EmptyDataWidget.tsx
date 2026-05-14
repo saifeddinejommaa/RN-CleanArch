@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 type EmptyDataWidgetProps = {
   message: string;
 };
+
 const EmptyDataWidget = (props: EmptyDataWidgetProps) => {
   return (
     <View style={styles.container}>

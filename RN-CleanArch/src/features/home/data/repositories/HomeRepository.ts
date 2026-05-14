@@ -1,8 +1,8 @@
 import { current } from '@reduxjs/toolkit';
-import { IHttpService } from '../../../../core/httpServices/IHttpService';
+import { IHttpService } from '../../../../core/services/httpServices/IHttpService';
 import CurrentMission from '../../domain/entities/CurrentMission';
 import IHomeRepository from '../../domain/repositories/IHomeRepository';
-import ApiResponse from '../../../../core/httpServices/ApiResponse';
+import ApiResponse from '../../../../core/services/httpServices/ApiResponse';
 import { Result } from '../../../../core/common/Result';
 import UpComingMission from '../../domain/entities/UpComingMission';
 

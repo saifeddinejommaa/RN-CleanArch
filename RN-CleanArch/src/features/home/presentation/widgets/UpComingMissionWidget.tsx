@@ -43,7 +43,7 @@ function buildContent(upComingMission: RequestState<UpComingMission[]>): JSX.Ele
   return (
     <View>
       {missions.map((mission) => (
-        <View>
+        <View key={mission.id}>
           <Text style={styles.dateText}>
             {new Date(mission.firstMissionDay).toLocaleDateString('fr-FR')}
           </Text>

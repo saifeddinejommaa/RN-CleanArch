@@ -27,9 +27,10 @@ export default function GlobeButton({
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#00529C',
     paddingVertical: 12,
-    paddingHorizontal: 100,
+    paddingHorizontal: 24,
+    width:'80%',
     borderRadius: 8,
     alignItems: 'center',
   },

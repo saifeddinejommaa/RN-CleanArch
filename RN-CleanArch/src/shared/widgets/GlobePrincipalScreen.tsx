@@ -1,17 +1,23 @@
 import { StyleSheet, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { typography } from '../../theme/typography';
+import { StatusBar } from 'expo-status-bar';
+
 type PrincipalScreenParams = {
   child: React.ReactNode;
-  screenTitle: String;
+  screenTitle: string;
 };
+
 export const GlobePrincipalScreen = ({ child, screenTitle }: PrincipalScreenParams) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={[typography.label2XLarge, { color: 'white' }]}>{screenTitle}</Text>
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <StatusBar style="light" />
+      <View style={styles.main}>
+        <View style={styles.header}>
+          <Text style={[typography.label2XLarge, { color: 'white' }]}>{screenTitle}</Text>
+        </View>
+        <View style={styles.childContainer}>{child}</View> 
       </View>
-      <View style={styles.childContainer}>{child}</View>
     </SafeAreaView>
   );
 };
@@ -19,6 +25,7 @@ export const GlobePrincipalScreen = ({ child, screenTitle }: PrincipalScreenPara
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#00529C',
   },
   header: {
     backgroundColor: '#00529C',
@@ -28,6 +35,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 120,
+  },
+  main: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   childContainer: {
     flex: 1,

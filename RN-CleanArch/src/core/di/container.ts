@@ -3,12 +3,17 @@ import { AuthRepositoryImp } from '../../features/auth/data/repositories/AuthRep
 import { LogoutUseCase } from '../../features/auth/domain/useCases/LogoutUseCase';
 import { CheckAuthUseCase } from '../../features/auth/domain/useCases/CheckAuthUseCase';
 import { IAuthRepository } from '../../features/auth/domain/repositories/IAuthRepository';
-import { HttpService } from '../httpServices/HttpService';
-import { IHttpService } from '../httpServices/IHttpService';
+import { HttpService } from '../services/httpServices/HttpService';
+import { IHttpService } from '../services/httpServices/IHttpService';
 import IHomeRepository from '../../features/home/domain/repositories/IHomeRepository';
 import HomeRepository from '../../features/home/data/repositories/HomeRepository';
 import GetCurrentMissionUseCase from '../../features/home/domain/useCases/GetCurrentMissionUseCase';
 import GetUpComingMissionUseCase from '../../features/home/domain/useCases/GetUpComingMissionUseCase';
+import GetAllMissionsUseCase from '../../features/search/domain/useCases/GetAllMissionsUseCase';
+import ISearchRepository from '../../features/search/domain/repositories/searchRepository';
+import SearchRepository from '../../features/search/data/repositories/SearchRepository';
+import ILocalStorageService from '../services/storageServices/ILocalStorageService';
+import LocalStorageService from '../services/storageServices/LocalStorageService';
 
 class Container {
   private instances = new Map<string, any>();
@@ -31,12 +36,18 @@ export const container = new Container();
 container.register<IHttpService>(
   'HttpService',
   new HttpService(
-    'https://338a-2a01-e0a-a1f-9c20-6c9d-673-e2f5-6b69.ngrok-free.app',
-    'eyJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiIyODlkMTI2Ni02YWU0LTQ3MzMtOGMzMS00Nzk3YjNhOTFmOWMiLCJpc3MiOiJodHRwczovL2dsb2JlcHJvbW90ZXJzLmIyY2xvZ2luLmNvbS9jZGJlYTE1Mi1hNzU2LTRmZGUtOTZiMS00MzkxNDc5MDM0NWUvdjIuMC8iLCJleHAiOjE3NzgzMjcxODUsIm5iZiI6MTc3ODMyMzU4NSwib2lkIjoiNTcwZWZkM2YtYzQ1Ni00MTczLWI3ZjUtZjVhYjlhMWUzNTZiIiwic3ViIjoiNTcwZWZkM2YtYzQ1Ni00MTczLWI3ZjUtZjVhYjlhMWUzNTZiIiwiZ2l2ZW5fbmFtZSI6IlNvbmlhIiwiZmFtaWx5X25hbWUiOiJLQVBDSEUgS0FNR0FhIiwibmFtZSI6IlNvbmlhIEtBUENIRSBLQU1HQWEiLCJlbWFpbHMiOlsic2thbWdhQGdsb2JlLWdyb3VwZS5jb20iXSwidGZwIjoiQjJDXzFfU1VTSSIsInNjcCI6IkFwcGxpY2F0aW9uLlJlYWRXcml0ZS5BbGwiLCJhenAiOiI4MDkzMDVjNS02M2ZmLTRiNzEtYWZjMS0wMjI5MDQzYmI4NDEiLCJ2ZXIiOiIxLjAiLCJpYXQiOjE3NzgzMjM1ODV9.JPST9gweIzffw8SphlQw3dsre2PkMtanm4P8fOkjENjrLtaY1fuakDKpOcFkX5ScVoxARd3VVmgaojWXrNDN71rZge7JI4wKtE_itpl36nVnKLswDSilFcGZXnI0DFoJY_cZ8i_HK93i7IdLolN4DQHiaZs6RkHtcS6t_FthIzRmVH801gehKg8__4lAelubBdysHyM5yksupH-pC3BUzHw-fiP-Btzs5UdxeCSquE6VSrDlFkfImAdCi5Mbo5fjbuwd257xIhcpgZjc-khlCZOFADTc73FrlkVbpRdvr-W7eG7Iy5E1xg7zSm-xl6QK4C7kwICQEDqjEVOAhHFLBQ',
+    'https://5a80-2a01-e0a-a1f-9c20-e931-1d54-cad5-e98d.ngrok-free.app',
+    'eyJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiIyODlkMTI2Ni02YWU0LTQ3MzMtOGMzMS00Nzk3YjNhOTFmOWMiLCJpc3MiOiJodHRwczovL2dsb2JlcHJvbW90ZXJzLmIyY2xvZ2luLmNvbS9jZGJlYTE1Mi1hNzU2LTRmZGUtOTZiMS00MzkxNDc5MDM0NWUvdjIuMC8iLCJleHAiOjE3Nzg3OTc4MTcsIm5iZiI6MTc3ODc5NDIxNywib2lkIjoiNjAxNDlkYjEtMTgxNS00MDlkLTkzM2MtZjVhY2Y1Y2JlNDljIiwic3ViIjoiNjAxNDlkYjEtMTgxNS00MDlkLTkzM2MtZjVhY2Y1Y2JlNDljIiwiZ2l2ZW5fbmFtZSI6Ik1hcmlvIiwiZmFtaWx5X25hbWUiOiJCcm9zIiwibmFtZSI6Ik1hcmlvIEJyb3MiLCJlbWFpbHMiOlsiZGV2ZWxvcGVyc0BnbG9iZS1ncm91cC5jb20iXSwidGZwIjoiQjJDXzFfU1VTSSIsInNjcCI6IkFwcGxpY2F0aW9uLlJlYWRXcml0ZS5BbGwiLCJhenAiOiI4MDkzMDVjNS02M2ZmLTRiNzEtYWZjMS0wMjI5MDQzYmI4NDEiLCJ2ZXIiOiIxLjAiLCJpYXQiOjE3Nzg3OTQyMTd9.O7IPX396XwWESiSlBzE1zJ8g6rvi58glz1A1Fp8g0V6IcJMCYojBz3x7A36ewzaqkQ_M9vlWt7rnfR7Yie2EtVlaXIWl5jnfEeeD9F1SFrsUNrm7rn2P5hiU0vQshp4pPkWoZPvY09EJ9tlkJZPtqW-2lcMS_k9AsNXcYpdJ5c-nGyLTwYYoNaiXqSJkgQoWikBYosm_CksBJig-vPvdcvf_Rj7YZG3q1YcmA4nwYKPZLbPlnPPQjvb6XYEJRsHTIly0BR1OircoJ17eB6_ru2LwlsyAeqlmTk0p47xMxpyRgaAlWjdQ4RPzJF3aSscKhnc2CGtH-OAE9l-rK7Op3A',
   ),
 );
-
-container.register<IAuthRepository>('AuthRepository', new AuthRepositoryImp());
+container.register<ILocalStorageService>(
+  'LocalStorageService',
+  new LocalStorageService(),
+);
+container.register<IAuthRepository>(
+  'AuthRepository',
+  new AuthRepositoryImp(container.resolve('LocalStorageService')),
+);
 
 container.register<LoginUseCase>(
   'LoginUseCase',
@@ -58,6 +69,11 @@ container.register<IHomeRepository>(
   new HomeRepository(container.resolve('HttpService')),
 );
 
+container.register<ISearchRepository>(
+  'SearchRepository',
+  new SearchRepository(container.resolve('HttpService')),
+);
+
 container.register<GetCurrentMissionUseCase>(
   'GetCurrentMissionUseCase',
   new GetCurrentMissionUseCase(container.resolve('HomeRepository')),
@@ -66,4 +82,9 @@ container.register<GetCurrentMissionUseCase>(
 container.register<GetUpComingMissionUseCase>(
   'GetUpComingMissionUseCase',
   new GetUpComingMissionUseCase(container.resolve('HomeRepository')),
+);
+
+container.register<GetAllMissionsUseCase>(
+  'GetAllMissionsUseCase',
+  new GetAllMissionsUseCase(container.resolve('SearchRepository')),
 );
