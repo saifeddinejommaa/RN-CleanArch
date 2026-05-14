@@ -1,0 +1,30 @@
+{
+    "build": {
+      "development": {
+        "extends": "base",
+        "env": {
+          "APP_ENV": "development",
+          "BASE_URL": "https://338a-2a01-e0a-a1f-9c20-6c9d-673-e2f5-6b69.ngrok-free.app"
+        },
+        "android": {
+          "gradleCommand": ":app:bundleDevelopmentRelease"
+        },
+        "ios": {
+          "scheme": "app-dev"
+        }
+      },
+      "staging": {
+        "extends": "base",
+        "env": {
+          "APP_ENV": "staging",
+          "BASE_URL": "https://338a-2a01-e0a-a1f-9c20-6c9d-673-e2f5-6b69.ngrok-free.app"
+        },
+        "android": {
+          "gradleCommand": ":app:bundleStagingRelease"
+        },
+        "ios": {
+          "scheme": "app-staging"
+        }
+      }
+    }
+  }
