@@ -1,9 +1,9 @@
-import { Result } from "../../../../core/common/Result";
-import Mission from "../entities/Mission";
-import SearchParams from "../params/SearchParams";
+import { RequestResult } from '../../../../core/common/RequestResult';
+import Mission from '../entities/Mission';
+import SearchParams from '../params/SearchParams';
 
 interface ISearchRepository {
-    getAllMissions(searchParams: SearchParams) : Promise<Result<Mission[] | null>>
+  getAllMissions(searchParams: SearchParams): Promise<RequestResult<Mission[] | null>>;
 }
 
 export default ISearchRepository;

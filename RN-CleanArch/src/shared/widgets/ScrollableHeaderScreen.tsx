@@ -14,12 +14,14 @@ const HEADER_MIN_HEIGHT = Platform.OS === 'ios' ? 60 : 73;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 type ScrollableHeaderScreenProps = {
+  headerContent?: React.ReactNode;
   child: React.ReactNode;
 };
 
 export const ScrollableHeaderScreen: React.FC<ScrollableHeaderScreenProps> = ({
   child,
-}: ScrollableHeaderScreenProps) => {
+  headerContent,
+}) => {
   const scrollY = useRef(
     new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
   ).current;
@@ -126,7 +128,7 @@ export const ScrollableHeaderScreen: React.FC<ScrollableHeaderScreenProps> = ({
           },
         ]}
       >
-        <Text style={styles.title}>Title</Text>
+        {headerContent && headerContent}
       </Animated.View>
     </View>
   );

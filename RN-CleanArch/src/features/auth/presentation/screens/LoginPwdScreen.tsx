@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../app/store';
 import { login } from '../AuthSlice';
 import Toast from 'react-native-toast-message';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoginPwdScreen() {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,7 +32,6 @@ export default function LoginPwdScreen() {
   }, [authState.error]);
 
   return (
-    <SafeAreaView>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -67,7 +65,6 @@ export default function LoginPwdScreen() {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
   );
 }
 

@@ -3,12 +3,12 @@ import { IHttpService } from '../../../../core/services/httpServices/IHttpServic
 import CurrentMission from '../../domain/entities/CurrentMission';
 import IHomeRepository from '../../domain/repositories/IHomeRepository';
 import ApiResponse from '../../../../core/services/httpServices/ApiResponse';
-import { Result } from '../../../../core/common/Result';
+import { RequestResult } from '../../../../core/common/RequestResult';
 import UpComingMission from '../../domain/entities/UpComingMission';
 
 class HomeRepository implements IHomeRepository {
   constructor(private http: IHttpService) {}
-  async GetUpComingMission(): Promise<Result<UpComingMission[] | null>> {
+  async GetUpComingMission(): Promise<RequestResult<UpComingMission[] | null>> {
     try {
       var response: ApiResponse<UpComingMission[] | null> = await this.http.get<
         UpComingMission[] | null
@@ -33,7 +33,7 @@ class HomeRepository implements IHomeRepository {
     }
   }
 
-  async GetRurrentMission(): Promise<Result<CurrentMission | null>> {
+  async GetRurrentMission(): Promise<RequestResult<CurrentMission | null>> {
     try {
       var response: ApiResponse<CurrentMission | null> =
         await this.http.get<CurrentMission | null>('/api/v3/me/home/current');

@@ -8,10 +8,12 @@ import GlobeButton from '../../../../shared/widgets/GlobeButton';
 import { typography } from '../../../../theme/typography';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import PromoterHeaderWidget from '../widgets/PromoterHeaderWidget';
 
 export const HomeScreen = () => {
   return (
       <ScrollableHeaderScreen
+       headerContent= {<PromoterHeaderWidget/>}
         child={
           <View style={styles.container}>
             <CurrentMissionWidget />

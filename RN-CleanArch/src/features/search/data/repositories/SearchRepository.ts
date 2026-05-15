@@ -1,4 +1,4 @@
-import { Result } from '../../../../core/common/Result';
+import { RequestResult } from '../../../../core/common/RequestResult';
 import ApiResponse from '../../../../core/services/httpServices/ApiResponse';
 import { IHttpService } from '../../../../core/services/httpServices/IHttpService';
 import Mission from '../../domain/entities/Mission';
@@ -11,7 +11,9 @@ import MissionsListResponse from '../responses/MissionsListRespons';
 class SearchRepository implements ISearchRepository {
   constructor(private httpService: IHttpService) {}
 
-  async getAllMissions(searchParams: SearchParams): Promise<Result<Mission[] | null>> {
+  async getAllMissions(
+    searchParams: SearchParams,
+  ): Promise<RequestResult<Mission[] | null>> {
     const response: ApiResponse<MissionsListResponse> =
       await this.httpService.get<MissionsListResponse>('/api/v2/missions', {
         params: searchParams,

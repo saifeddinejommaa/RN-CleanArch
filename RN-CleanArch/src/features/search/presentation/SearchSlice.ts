@@ -5,7 +5,7 @@ import { container } from '../../../core/di/container';
 import GetCurrentMissionUseCase from '../domain/useCases/GetAllMissionsUseCase';
 import SearchFilters from './types/SearchFilters';
 import { RootState } from '../../../app/store';
-import { Result } from '../../../core/common/Result';
+import { RequestResult } from '../../../core/common/RequestResult';
 
 type SearchState = {
   missions: RequestState<Mission[] | null>;
@@ -20,13 +20,13 @@ const defaultState: SearchState = {
     error: undefined,
   },
   searchFilters: {
-    selectedDays: [1,2,3,4,5,6,7],
+    selectedDays: [1, 2, 3, 4, 5, 6, 7],
   },
   pageNumber: 0,
 };
 
 export const getAllMissions = createAsyncThunk<
-  Result<Mission[] | null>,
+  RequestResult<Mission[] | null>,
   void,
   { state: RootState }
 >('search/getAllMissions', async (_, thunkAPI) => {
