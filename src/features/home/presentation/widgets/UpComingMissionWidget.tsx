@@ -16,7 +16,7 @@ const UpComingMissionWidget = () => {
 
   useEffect(() => {
     dispatch(getUpComingMissionAction());
-  }, dispatch);
+  }, [dispatch]);
 
   return (
     <View>

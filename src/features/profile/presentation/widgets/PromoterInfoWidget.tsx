@@ -9,7 +9,7 @@ export const PromoterInfoWIdget = () => {
       child={
         <View style={styles.container}>
           <View style={styles.profilePhoto}></View>
-          <Text style={[typography.LabelXSmall, { color: 'black' }]}>Bonjour</Text>{' '}
+          <Text style={[typography.LabelXSmall, { color: 'black' }]}>Bonjour</Text>
         </View>
       }
     ></GlobeCard>
