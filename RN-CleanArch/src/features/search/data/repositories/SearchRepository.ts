@@ -28,11 +28,6 @@ class SearchRepository implements ISearchRepository {
 
     const missionsListResponse: MissionsListResponse | null = response.data;
 
-    console.log(
-      'SearchRepository - missionsListResponse - response:',
-      missionsListResponse,
-    );
-
     const missionsResonseResult = missionsListResponse?.results;
 
     return {

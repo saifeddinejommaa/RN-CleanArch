@@ -28,6 +28,8 @@ class PromoterRepository implements IPromoterRepository {
 
     var promoter = MapperPromoterDetailsResponseToEntity(promoterDetailsResponse);
 
+    
+
     return { success: true, data: promoter };
   }
 

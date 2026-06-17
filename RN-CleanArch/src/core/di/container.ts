@@ -14,6 +14,9 @@ import ISearchRepository from '../../features/search/domain/repositories/searchR
 import SearchRepository from '../../features/search/data/repositories/SearchRepository';
 import ILocalStorageService from '../services/storageServices/ILocalStorageService';
 import LocalStorageService from '../services/storageServices/LocalStorageService';
+import GetPromoterUseCase from '../../features/profile/domain/usecases/GetPromoterUseCase';
+import PromoterRepository from '../../features/profile/data/respositories/PromoterRespository';
+import IPromoterRepository from '../../features/profile/domain/repositories/IPromoterRespository';
 
 class Container {
   private instances = new Map<string, any>();
@@ -36,8 +39,8 @@ export const container = new Container();
 container.register<IHttpService>(
   'HttpService',
   new HttpService(
-    'https://5a80-2a01-e0a-a1f-9c20-e931-1d54-cad5-e98d.ngrok-free.app',
-    'eyJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiIyODlkMTI2Ni02YWU0LTQ3MzMtOGMzMS00Nzk3YjNhOTFmOWMiLCJpc3MiOiJodHRwczovL2dsb2JlcHJvbW90ZXJzLmIyY2xvZ2luLmNvbS9jZGJlYTE1Mi1hNzU2LTRmZGUtOTZiMS00MzkxNDc5MDM0NWUvdjIuMC8iLCJleHAiOjE3Nzg3OTc4MTcsIm5iZiI6MTc3ODc5NDIxNywib2lkIjoiNjAxNDlkYjEtMTgxNS00MDlkLTkzM2MtZjVhY2Y1Y2JlNDljIiwic3ViIjoiNjAxNDlkYjEtMTgxNS00MDlkLTkzM2MtZjVhY2Y1Y2JlNDljIiwiZ2l2ZW5fbmFtZSI6Ik1hcmlvIiwiZmFtaWx5X25hbWUiOiJCcm9zIiwibmFtZSI6Ik1hcmlvIEJyb3MiLCJlbWFpbHMiOlsiZGV2ZWxvcGVyc0BnbG9iZS1ncm91cC5jb20iXSwidGZwIjoiQjJDXzFfU1VTSSIsInNjcCI6IkFwcGxpY2F0aW9uLlJlYWRXcml0ZS5BbGwiLCJhenAiOiI4MDkzMDVjNS02M2ZmLTRiNzEtYWZjMS0wMjI5MDQzYmI4NDEiLCJ2ZXIiOiIxLjAiLCJpYXQiOjE3Nzg3OTQyMTd9.O7IPX396XwWESiSlBzE1zJ8g6rvi58glz1A1Fp8g0V6IcJMCYojBz3x7A36ewzaqkQ_M9vlWt7rnfR7Yie2EtVlaXIWl5jnfEeeD9F1SFrsUNrm7rn2P5hiU0vQshp4pPkWoZPvY09EJ9tlkJZPtqW-2lcMS_k9AsNXcYpdJ5c-nGyLTwYYoNaiXqSJkgQoWikBYosm_CksBJig-vPvdcvf_Rj7YZG3q1YcmA4nwYKPZLbPlnPPQjvb6XYEJRsHTIly0BR1OircoJ17eB6_ru2LwlsyAeqlmTk0p47xMxpyRgaAlWjdQ4RPzJF3aSscKhnc2CGtH-OAE9l-rK7Op3A',
+    'https://8206-2a01-e0a-a1f-9c20-580-6fb1-1c15-30e6.ngrok-free.app',
+    'eyJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiIyODlkMTI2Ni02YWU0LTQ3MzMtOGMzMS00Nzk3YjNhOTFmOWMiLCJpc3MiOiJodHRwczovL2dsb2JlcHJvbW90ZXJzLmIyY2xvZ2luLmNvbS9jZGJlYTE1Mi1hNzU2LTRmZGUtOTZiMS00MzkxNDc5MDM0NWUvdjIuMC8iLCJleHAiOjE3NzkwMjYzODksIm5iZiI6MTc3OTAyMjc4OSwib2lkIjoiNjAxNDlkYjEtMTgxNS00MDlkLTkzM2MtZjVhY2Y1Y2JlNDljIiwic3ViIjoiNjAxNDlkYjEtMTgxNS00MDlkLTkzM2MtZjVhY2Y1Y2JlNDljIiwiZ2l2ZW5fbmFtZSI6Ik1hcmlvIiwiZmFtaWx5X25hbWUiOiJCcm9zIiwibmFtZSI6Ik1hcmlvIEJyb3MiLCJlbWFpbHMiOlsiZGV2ZWxvcGVyc0BnbG9iZS1ncm91cC5jb20iXSwidGZwIjoiQjJDXzFfU1VTSSIsInNjcCI6IkFwcGxpY2F0aW9uLlJlYWRXcml0ZS5BbGwiLCJhenAiOiI4MDkzMDVjNS02M2ZmLTRiNzEtYWZjMS0wMjI5MDQzYmI4NDEiLCJ2ZXIiOiIxLjAiLCJpYXQiOjE3NzkwMjI3ODl9.I2nl7VyCXNglZVETiyH474OU9zMhJoxKUWvcmDwiQ1XQTPKpEUT27-eGxyhDzATZzkPkrSucNloO-jMR7Syq1LrULNd_oOfuiKRAsYXPf8rjUtCQkB0ZuIy5U5IDsFNG1ZnYKz7aAxrlzrkOP_byIcaJLXZoIGha0CRHpTLsZMsnYDdynHDSvffwLtu2tj83D5XVipTYWmYWvq6rBYWAq150rITDE9NuiUBcVPc6J9K9LQ5GAYsvQTOBB3KCeR3D0bR46u27PdMUu-26mmnh_a-4cx2TNKKUhUdeOwxMGpFDOgDRUQtyPvqTZ8pmRutsjovpSvK55GBoFeZSCdfgAQ',
   ),
 );
 container.register<ILocalStorageService>(
@@ -64,6 +67,11 @@ container.register<CheckAuthUseCase>(
   new CheckAuthUseCase(container.resolve('AuthRepository')),
 );
 
+container.register<IPromoterRepository>(
+  'PromoterRespository',
+  new PromoterRepository(container.resolve('HttpService')),
+);
+
 container.register<IHomeRepository>(
   'HomeRepository',
   new HomeRepository(container.resolve('HttpService')),
@@ -72,6 +80,11 @@ container.register<IHomeRepository>(
 container.register<ISearchRepository>(
   'SearchRepository',
   new SearchRepository(container.resolve('HttpService')),
+);
+
+container.register<GetPromoterUseCase>(
+  'GetPromoterUseCase',
+  new GetPromoterUseCase(container.resolve('PromoterRespository')),
 );
 
 container.register<GetCurrentMissionUseCase>(

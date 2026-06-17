@@ -9,6 +9,10 @@ const PromoterHeaderWidget = () => {
     const promoterState = useSelector((state:RootState) => state.promoter);
     const dispatch = useDispatch<AppDispatch>();
 
+    useEffect(() => {
+        dispatch(getPromoter());
+    }, []);
+
     return (
         <View style={styles.container}>
             <Text style= {typography.label2XLarge}>Bonjour,</Text>
@@ -19,8 +23,8 @@ const PromoterHeaderWidget = () => {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
-        padding: 10,
+        flex: 1,
+        marginTop: 170,
     },
         
     });
