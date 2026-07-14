@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { StyleSheet, TextInput, View , Text} from 'react-native';
-import { container } from '../../core/di/container';
+import { useState } from "react";
+import { StyleSheet, TextInput, View, Text } from "react-native";
 
 type GlobeTextInputProps = {
   defaultValue?: string;
@@ -12,22 +11,22 @@ type GlobeTextInputProps = {
 };
 
 const GlobeTextInput = (props: GlobeTextInputProps) => {
-  const [value, setValue] = useState(props.defaultValue || '');
+  const [value, setValue] = useState(props.defaultValue || "");
   return (
-    <View style= {styles.container}>
-      <Text>{props.label + (props.isRequired ? ' *' : '')}</Text>
-    <TextInput
-      style={styles.input}
-      editable={props.isEnabled}
-      onFocus={props.onFocus}
-      value={value}
-      onChange={(text) => {
-        setValue(text.nativeEvent.text);
-        if (props.onTextChange) {
-          props.onTextChange(text.nativeEvent.text);
-        }
-      }}
-    ></TextInput>
+    <View style={styles.container}>
+      <Text>{props.label + (props.isRequired ? " *" : "")}</Text>
+      <TextInput
+        style={styles.input}
+        editable={props.isEnabled}
+        onFocus={props.onFocus}
+        value={value}
+        onChange={(text) => {
+          setValue(text.nativeEvent.text);
+          if (props.onTextChange) {
+            props.onTextChange(text.nativeEvent.text);
+          }
+        }}
+      ></TextInput>
     </View>
   );
 };
@@ -38,9 +37,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: '#00529C',
+    borderBottomColor: "#00529C",
     paddingVertical: 8,
-  }
+  },
 });
 
 export default GlobeTextInput;

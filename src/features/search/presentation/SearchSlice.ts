@@ -6,6 +6,7 @@ import GetCurrentMissionUseCase from '../domain/useCases/GetAllMissionsUseCase';
 import SearchFilters from './types/SearchFilters';
 import { RootState } from '../../../app/store';
 import { RequestResult } from '../../../core/common/RequestResult';
+import { RequestStatus } from '../../shared/presentation/RequestSatus';
 
 type SearchState = {
   missions: RequestState<Mission[] | null>;
@@ -16,7 +17,7 @@ type SearchState = {
 const defaultState: SearchState = {
   missions: {
     data: null,
-    status: 'initial',
+    status: RequestStatus.initial,
     error: undefined,
   },
   searchFilters: {
@@ -49,19 +50,19 @@ const searchSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllMissions.pending, (state) => {
-        state.missions = { data: null, status: 'loading', error: undefined };
+        state.missions = { data: null, status: RequestStatus.loading, error: undefined };
       })
       .addCase(getAllMissions.fulfilled, (state, action) => {
         if (action.payload.success) {
           state.missions = {
             data: action.payload.data,
-            status: 'success',
+            status: RequestStatus.success,
             error: undefined,
           };
         } else {
           state.missions = {
             data: null,
-            status: 'error',
+            status: RequestStatus.error,
             error: action.payload.error || 'error',
           };
         }
@@ -69,7 +70,7 @@ const searchSlice = createSlice({
       .addCase(getAllMissions.rejected, (state, action) => {
         state.missions = {
           data: null,
-          status: 'error',
+          status: RequestStatus.error,
           error: action.error.message || 'error',
         };
       });

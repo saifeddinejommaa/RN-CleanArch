@@ -1,62 +1,53 @@
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../app/store';
-import { JSX, useEffect } from 'react';
-import { getUpComingMissionAction } from '../HomeSlice';
-import { RequestState } from '../../../../core/state/RequestState';
-import UpComingMission from '../../domain/entities/UpComingMission';
-import { GlobeCard } from '../../../../shared/widgets/GlobeCard';
-import { typography } from '../../../../theme/typography';
-import { MissionForHomeItemWidget } from './MissionForHomeWidget';
-import EmptyDataWidget from '../../../../shared/widgets/EmptyDataWidget';
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { JSX } from "react";
+import UpComingMission from "../../domain/entities/UpComingMission";
+import { typography } from "../../../../theme/typography";
+import { MissionForHomeItemWidget } from "./MissionForHomeWidget";
+import EmptyDataWidget from "../../../../shared/widgets/EmptyDataWidget";
+import { UseUpcomingMission } from "../hooks/UseUpcomingMission";
 
 const UpComingMissionWidget = () => {
-  const dispatch = useDispatch<any>();
-  const homeState = useSelector((state: RootState) => state.home);
+  const { isLoading, error, upcomingMission } = UseUpcomingMission();
 
-  useEffect(() => {
-    dispatch(getUpComingMissionAction());
-  }, [dispatch]);
+  const buildContent = (): JSX.Element => {
+    if (isLoading) {
+      return <ActivityIndicator />;
+    }
+
+    if (error != null) {
+      return <Text>{error}</Text>;
+    }
+
+    const missions: UpComingMission[] | null = upcomingMission;
+    if (missions === null) {
+      return <EmptyDataWidget message="No missions à venir"></EmptyDataWidget>;
+    }
+
+    return (
+      <View>
+        {missions.map((mission) => (
+          <View key={mission.id}>
+            <Text style={styles.dateText}>
+              {new Date(mission.firstMissionDay).toLocaleDateString("fr-FR")}
+            </Text>
+            <MissionForHomeItemWidget
+              campainName={mission.campaignName}
+              logo={mission.logo}
+              occupationLabel={mission.occupationLabel}
+            />
+          </View>
+        ))}
+      </View>
+    );
+  };
 
   return (
     <View>
       <Text style={typography.label2XLarge}>Mission à venir</Text>
-      <View>{buildContent(homeState.upComingMission)}</View>
+      <View>{buildContent()}</View>
     </View>
   );
 };
-
-function buildContent(upComingMission: RequestState<UpComingMission[]>): JSX.Element {
-  if (upComingMission.status === 'loading') {
-    return <ActivityIndicator />;
-  }
-
-  if (upComingMission.error != null) {
-    return <Text>{upComingMission.error}</Text>;
-  }
-
-  const missions: UpComingMission[] | null = upComingMission.data;
-  if (missions === null) {
-    return <EmptyDataWidget message="No missions à venir"></EmptyDataWidget>;
-  }
-
-  return (
-    <View>
-      {missions.map((mission) => (
-        <View key={mission.id}>
-          <Text style={styles.dateText}>
-            {new Date(mission.firstMissionDay).toLocaleDateString('fr-FR')}
-          </Text>
-          <MissionForHomeItemWidget
-            campainName={mission.campaignName}
-            logo={mission.logo}
-            occupationLabel={mission.occupationLabel}
-          />
-        </View>
-      ))}
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   dateText: {

@@ -17,6 +17,7 @@ import PersonalInfoScreen from '../features/profile/presentation/screens/Persona
 import IdentityScreen from '../features/profile/presentation/screens/IdentityScreen';
 import SizesReferenceScreen from '../features/profile/presentation/screens/SizesReferenceScreen';
 import EmailScreen from '../features/profile/presentation/screens/EmailScreen';
+import { RequestStatus } from '../features/shared/presentation/RequestSatus';
 
 export type RootStackParamList = {
   AuthStack: undefined;
@@ -114,15 +115,15 @@ const RootNavigator = () => {
     dispatch(checkAuth());
   }, []);
 
-  const { isLoggedIn, isLoading } = useSelector((state: RootState) => state.auth);
+  const { status, data } = useSelector((state: RootState) => state.auth);
 
-  if (isLoading) {
+  if (status === RequestStatus.loading) {
     return <SplashScreen />;
   }
 
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      {isLoggedIn ? (
+      {status === RequestStatus.success ? (
         <RootStack.Screen name="MainStack" component={MainTabs} />
       ) : (
         <RootStack.Screen name="AuthStack" component={AuthStack} />

@@ -6,6 +6,7 @@ type NavigationItemProps = {
   iconName: React.ComponentProps<typeof Ionicons>['name'];
   onPress?: () => void;
 };
+
 const ProfileNavigationItem = (props: NavigationItemProps) => {
   return (
     <TouchableOpacity onPress={props.onPress}>

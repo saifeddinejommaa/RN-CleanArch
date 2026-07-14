@@ -10,26 +10,10 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import GlobeButton from '../../../../shared/widgets/GlobeButton';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../../app/store';
-import { login } from '../AuthSlice';
-import Toast from 'react-native-toast-message';
+import { useLogin } from '../hooks/useLogin';
 
 export default function LoginPwdScreen() {
-  const dispatch = useDispatch<AppDispatch>();
-  const authState = useSelector((state: RootState) => state.auth);
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
-  useEffect(() => {
-    if (authState.error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Authentication Error',
-      });
-    }
-  }, [authState.error]);
+  const { email, password, setEmail, setPassword, isLoading, loginUser } = useLogin();
 
   return (
       <KeyboardAvoidingView
@@ -52,14 +36,14 @@ export default function LoginPwdScreen() {
             <GlobeButton
               style={styles.authButton}
               child={
-                authState.isLoading ? (
+                isLoading ? (
                   <ActivityIndicator size="large" />
                 ) : (
                   <Text>S'authentifier</Text>
                 )
               }
               onPress={function (): void {
-                dispatch(login({ email, password }));
+                loginUser();
               }}
             ></GlobeButton>
           </View>

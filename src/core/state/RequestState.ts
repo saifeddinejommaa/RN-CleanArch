@@ -1,4 +1,4 @@
-export type RequestStatus = 'initial' | 'loading' | 'success' | 'error';
+import { RequestStatus } from "../../features/shared/presentation/RequestSatus";
 
 export interface RequestState<T> {
   data: T | null;

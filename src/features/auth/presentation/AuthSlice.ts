@@ -3,17 +3,14 @@ import { LoginUseCase } from '../domain/useCases/LoginUseCase';
 import { LogoutUseCase } from '../domain/useCases/LogoutUseCase';
 import { CheckAuthUseCase } from '../domain/useCases/CheckAuthUseCase';
 import { container } from '../../../core/di/container';
+import { RequestStatus } from '../../shared/presentation/RequestSatus';
+import { RequestState } from '../../../core/state/RequestState';
 
-interface AuthState {
-  isLoading: boolean;
-  isLoggedIn: boolean;
-  error: String | null;
-}
 
-const initialState: AuthState = {
-  error: null,
-  isLoading: false,
-  isLoggedIn: false,
+
+const initialState: RequestState<boolean> = {
+  status: RequestStatus.initial,
+  data: null,
 };
 
 export const login = createAsyncThunk(
@@ -41,51 +38,44 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+        state.status = RequestStatus.loading;
       })
       .addCase(login.fulfilled, (state, action) => {
         if (!action.payload) {
-          state.isLoading = false;
-          state.isLoggedIn = false;
+          state.status = RequestStatus.error;
           state.error = 'Invalid credentials';
           return;
         }
-        state.isLoading = false;
-        state.isLoggedIn = action.payload;
-        state.error = null;
+        state.status = RequestStatus.success;
+        state.data = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isLoggedIn = false;
+        state.status = RequestStatus.error;
         state.error = action.error.message || 'Login failed';
       })
       .addCase(checkAuth.pending, (state) => {
-        state.isLoading = true;
+        state.status = RequestStatus.loading;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isLoggedIn = action.payload;
-        state.error = null;
+        state.status = RequestStatus.success;
+        state.data = action.payload;
       })
       .addCase(checkAuth.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isLoggedIn = false;
+        state.status = RequestStatus.error;
+        state.data = false;
         state.error = action.error.message || 'Failed to check authentication';
       })
       .addCase(logout.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-        state.isLoggedIn = true;
+        state.status = RequestStatus.loading;
+        state.data = true;
       })
       .addCase(logout.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isLoggedIn = false;
-        state.error = null;
+        state.status = RequestStatus.success;
+        state.data = false;
       })
       .addCase(logout.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isLoggedIn = true;
+        state.status = RequestStatus.error;
+        state.data = true;
         state.error = action.error.message || 'Login failed';
       });
   },
